@@ -1,5 +1,6 @@
 # Set default directory
 setwd("~/Desktop/SpatAnalysisI/Networking/Networking/")
+# setwd("C:/Users/Hella/CloudStation/UZH/Master/872_Spatial_Analysis/Networking")
 
 # Import GeoJSON
 # Read data from JSON and cconvert to Spatial data frame
