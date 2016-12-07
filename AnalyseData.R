@@ -104,7 +104,8 @@ lines_intersection <- gsection(SPDF) # Divides SpatialLinesDataFrame objects int
 of a single number of aggregated lines.
 Sl_intersect <- SpatialLinesNetwork(lines_intersection)
 xy_intersect <- cbind(Sl_intersect@g$x, Sl_intersect@g$y)
-
+View(SPDF)
+SPDF$Value <- ifelse(SPDF$Radstreifen ==0, "0", "2")
 
 # ----------------------------------------------
 # STPLANR: SpatialLinesNetwork
