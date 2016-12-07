@@ -95,7 +95,7 @@ coord_spdf[1] # line 1 is list with to points
 coord_spdf[2] # line 2 is list with 11 points
 
 length_segments <- line_length(SPDF, byid = TRUE) # length of each segement
-View(length_segments) #????
+View(length_segments) #´????
 
 # ------------------------------------------------
 # callculate all line intersections
