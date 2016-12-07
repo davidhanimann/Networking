@@ -4,6 +4,10 @@ setwd("C:/Users/Hella/CloudStation/UZH/Master/872_Spatial_Analysis/Networking")
 
 # Import GeoJSON
 # Read data from JSON and cconvert to Spatial data frame
+<<<<<<< HEAD
+velo <- geojson_read("data/veloweg.geojson", what = "sp")
+kreise <- geojson_read("data/stadtkreise.geojson", what = "sp")
+=======
 velo <- fromJSON("data/veloweg.json", flatten = FALSE)
 
 # read all intersection points
@@ -33,4 +37,22 @@ points_lim <- duplicated ( points_all[,12:13])
 points_lim <- unique(points_all, by = "ID" AND "mm1091")
 
 
+>>>>>>> a0c83d33d742c33bfd68e4b368625ac3bb54a57f
 
+# 
+
+kreis1 <- velo[kreise[kreise$Kreisnummer==1,],]
+plot(kreis1, col = kreis1$Objekt.ID)
+
+kreis1@proj4string
+
+
+plot(velo[velo$Radweg != 0 | velo$Radstreifen != 0,])
+plot(velo)
+
+
+# Graph
+g1 <- graph(c(1,2)) 
+plot(g1)
+V(g1)
+g1[]

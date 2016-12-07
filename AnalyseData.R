@@ -75,13 +75,17 @@ Sp1 <- SpatialLines(Ls1, proj4string = CRS("+init=epsg:21782"))
 
 plot(Sp1) # plot all lines saved as matrices and tranformed to spatialLines
 
+
+
+# -----------------------------------------------
+# Create Spatial Dataframe
 Sp <- SpatialLines(c(Ls1,Ls2,Ls3,Ls4), proj4string = CRS("+init=epsg:21782")) # join all SpatialLines elements -> all dataelements in one
 
 
 ## Hier werden alle Lines- Objedkte in ein SpatialLines-Objekt umgewandelt
 ## F?r die Zuweisung der Koordinaten zu den "Properties" wird hier die Reihenfolge der Properties angepasst!
 ## In der Reihenfolge nn, kM2, kL werden die Properties neu geoordnet. Die Gr?sse n bleibt!
-prop <-  velo$features[c(nn,kM2,kL),3]
+prop <-  velo$features[c(nn,kM2,iL),3]
 
 ## SpatialLinesDataFram create trhough spatialLines and data=prop
 SPDF <- SpatialLinesDataFrame(Sp, prop)
@@ -90,6 +94,20 @@ class(coord_spdf) ## is list
 coord_spdf[1] # line 1 is list with to points
 coord_spdf[2] # line 2 is list with 11 points
 
+length_segments <- line_length(SPDF, byid = TRUE) # length of each segement
+View(length_segments) #????
+
+# ------------------------------------------------
+# callculate all line intersections
+
+lines_intersection <- gsection(SPDF) # Divides SpatialLinesDataFrame objects into separate Lines.Each new Lines object is the aggregate
+of a single number of aggregated lines.
+Sl_intersect <- SpatialLinesNetwork(lines_intersection)
+xy_intersect <- cbind(Sl_intersect@g$x, Sl_intersect@g$y)
+
+
+# ----------------------------------------------
+# STPLANR: SpatialLinesNetwork
 
 
 ## Lade Paket stplanr, um SpatialLinesNetwork zu kreieren!
@@ -97,7 +115,6 @@ library(stplanr)
 Sln1 <- SpatialLinesNetwork(SPDF) ## Hier wurde aus dem SpatialLinesData ein Network erzeugt!
 plot(Sln1)
 plot(Sln1@g)
-
 
 points(Sln1@g$x,Sln1@g$y, pch=20, col= "red") # plot all x/y of all points
 xy_points <- cbind(Sln1@g$x,Sln1@g$y) # get all x/y of points in form of an array
@@ -108,9 +125,12 @@ plot(xy_points)
 
 length(Sln1@g$x) # network conatins 9749 points/Vertices
 
-
+# use Overline "intelligent overline of data" before creating SpatialLinesNetwork
 ov <- overline(SPDF,attrib="coordinates") # overline spatialDataFrame
 Nw <- SpatialLinesNetwork(ov) # create SpatialLinesNetwork
+View(ov)
+xy_ov <- cbind(Nw@g$x, Nw@g$y)
+length(Nw@g$x)
 
 shortpath <- sum_network_routes(Nw, 155, 300, sumvars = "length") # calculate shortest path of random listIDs
 
@@ -123,7 +143,8 @@ length(Nw@g$x) # 6167 points
 coord_line <- coordinates(ov) # get all coordinates from lines
 coord_line[1:20] # show coordinates 1:20
            
-
+# ------------------------------------------------------
+# Plot shortest Path and points of corresponding SpatialLinesNetwork
 
 ## Lade Paket leaflet!
 library(leaflet)
@@ -139,6 +160,9 @@ m
 m <- leaflet() %>% addTiles() %>% setView(lat= 47.4, lng= 8.5, zoom = 10) %>%
   addPolylines(data=ov, color ="yellow")%>%
   addPolylines(data = shortpath, color = "streetblue") %>%
-  addCircleMarkers(data = xy_points, radius = 6)
+  addCircleMarkers(data = xy_points, radius = 4) %>%
+  addCircleMarkers(data = xy_intersect, radius = 3, color= "green")
+# addMarkers
 
 m
+

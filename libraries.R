@@ -5,7 +5,11 @@ library(dplyr)
 library(leaflet)
 
 # ------------------------
+<<<<<<< HEAD
 library(stplanr) ## didn't work for install.packages -> see workaround above 'pkgURL' 
+=======
+library(stplanr) ## didn't work for install.packages -> see workaround above 'pkgURL'
+>>>>>>> cd0b04d97b75049cc033f6deb5e340ccc0ae363a
 # needed following packages installed that way as well:
 library(sp)
 library(DBI)
@@ -28,4 +32,8 @@ library(stplanr)
 pkgUrl <- "https://cran.r-project.org/bin/windows/contrib/3.2/openxlsx_3.0.0.zip"
 # Install the zip directly
 install.packages(pkgUrl, repos = NULL,dependencies=TRUE, type="binary")
+<<<<<<< HEAD
 # ----------------------
+=======
+# ----------------------
+>>>>>>> cd0b04d97b75049cc033f6deb5e340ccc0ae363a
