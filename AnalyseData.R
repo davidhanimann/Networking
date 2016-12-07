@@ -1,4 +1,4 @@
-setwd("C:/Users/Hella/CloudStation/UZH/Master/872_Spatial_Analysis/Networking")
+# setwd("C:/Users/Hella/CloudStation/UZH/Master/872_Spatial_Analysis/Networking")
 
 
 # Import GeoJSON
@@ -85,7 +85,12 @@ prop <-  velo$features[c(nn,kM2,kL),3]
 
 ## SpatialLinesDataFram create trhough spatialLines and data=prop
 SPDF <- SpatialLinesDataFrame(Sp, prop)
-coord_spdf <- coordinates(SPDF) ### NOT WORKING!!
+coord_spdf <- coordinates(SPDF) 
+class(coord_spdf) ## is list
+coord_spdf[1] # line 1 is list with to points
+coord_spdf[2] # line 2 is list with 11 points
+
+
 
 ## Lade Paket stplanr, um SpatialLinesNetwork zu kreieren!
 library(stplanr)
@@ -96,6 +101,7 @@ plot(Sln1@g)
 
 points(Sln1@g$x,Sln1@g$y, pch=20, col= "red") # plot all x/y of all points
 xy_points <- cbind(Sln1@g$x,Sln1@g$y) # get all x/y of points in form of an array
+class(xy_points)
 
 V(Sln1@g)
 plot(xy_points)
@@ -124,7 +130,15 @@ library(leaflet)
 
 m <- leaflet() %>% addTiles() %>% setView(lat= 47.4, lng= 8.5, zoom = 10) %>%
   addPolylines(data=ov, color ="yellow")%>%
+  addPolylines(data = shortpath, color = "streetblue")
+
+m
+
+
+
+m <- leaflet() %>% addTiles() %>% setView(lat= 47.4, lng= 8.5, zoom = 10) %>%
+  addPolylines(data=ov, color ="yellow")%>%
   addPolylines(data = shortpath, color = "streetblue") %>%
-  addCircleMarkers(data = coord_spdf, radius = 6)
+  addCircleMarkers(data = xy_points, radius = 6)
 
 m
