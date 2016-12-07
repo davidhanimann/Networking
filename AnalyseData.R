@@ -96,6 +96,15 @@ coord_spdf[2] # line 2 is list with 11 points
 
 length_segments <- line_length(SPDF, byid = TRUE) # length of each segement
 View(length_segments) #´????
+SPDF$Value <- ifelse(SPDF$Radstreifen ==0, "0", "2") # add new column with value based on if there is a cicleway or not
+## this could be changed for user preferences
+
+
+# -------------------------------------------
+# build igraph
+df.g <- graph.data.frame(d = SPDF, directed = FALSE)
+plot(df.g, vertex.label = V(df.g)$Strasse)
+plot(df.g)
 
 # ------------------------------------------------
 # callculate all line intersections
@@ -105,7 +114,7 @@ of a single number of aggregated lines.
 Sl_intersect <- SpatialLinesNetwork(lines_intersection)
 xy_intersect <- cbind(Sl_intersect@g$x, Sl_intersect@g$y)
 View(SPDF)
-SPDF$Value <- ifelse(SPDF$Radstreifen ==0, "0", "2")
+
 
 # ----------------------------------------------
 # STPLANR: SpatialLinesNetwork
