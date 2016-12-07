@@ -2,6 +2,7 @@ library(jsonlite)
 library(sp)
 library(igraph)
 library(dplyr)
+library(leaflet)
 
 # ------------------------
 library(stplanr) ## didn't work for install.packages -> see workaround above 'pkgURL' 
