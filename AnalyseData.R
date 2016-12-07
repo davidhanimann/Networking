@@ -1,4 +1,4 @@
-setwd("C:/Users/Hella/CloudStation/UZH/Master/872_Spatial_Analysis/Networking")
+# setwd("C:/Users/Hella/CloudStation/UZH/Master/872_Spatial_Analysis/Networking")
 
 
 # Import GeoJSON
