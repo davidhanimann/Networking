@@ -142,6 +142,35 @@ View(ov)
 xy_ov <- cbind(Nw@g$x, Nw@g$y)
 length(Nw@g$x)
 
+ov1 <- overline(SPDF,attrib = c("Hoehe_Anfang","Hoehe_Ende")) # overline spatialDataFrame incl. Hoehe_Anfang, Hoehe_Ende
+Nw1 <- SpatialLinesNetwork(ov1) # create SpatialLinesNetwork
+
+
+weightfield(Nw2) <- "Hoehe_Ende" # Hoehe als Optimierungsvariable dem Netzwerk zuweisen.
+
+shopa <- sum_network_routes(Nw,205,6000,sumvar=c("Hoehe_Ende","length"))
+# shopa@data
+# ID sum_Hoehe_Ende sum_length
+# 1  1       50652.44   10.18214
+
+shopa2 <- sum_network_routes(Nw2,205,6000,sumvar=c("Hoehe_Ende","length"))
+# Wenn man dann die Berechnung auf Netzwerk zwei macht, dann spielt hier das Attribut sumvar nur für die Ausgabe
+# des Ergebnis eine Rolle.
+
+# Bei den beiden Beispielen wird mit jeweils die Summe der Variablen Höhe_Ende und length ausgegeben.
+
+
+# shopa2@data
+# ID sum_Hoehe_Ende sum_length
+# 1  1       35941.39   12.81748
+
+
+
+
+
+
+
+
 shortpath <- sum_network_routes(Nw, 155, 300, sumvars = "length") # calculate shortest path of random listIDs
 
 plot(shortpath, col = "green", lwd = 4) # only plot shortest Path
